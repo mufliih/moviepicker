@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-card">
+    {% if movie.poster_path %}
+    {% if movie.poster_path.startswith('http') %}
+    <img src="{{ movie.poster_path }}" alt="{{ movie.title }}" class="movie-poster">
+    {% else %}
+    <img src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}" alt="{{ movie.title }}" class="movie-poster">
+    {% endif %}
+    {% endif %}
+
+    <h1>{{ movie.title }}</h1>
+
+    <div class="movie-meta" style="justify-content: center;">
+        <span>📅 {{ movie.release_date[:4] }}</span>
+        <span>⭐ {{ movie.vote_average }}/10</span>
+    </div>
+
+    <div class="movie-info">
+        <p class="movie-overview">{{ movie.overview }}</p>
+    </div>
+
+    <div class="links">
+        <a href="https://www.youtube.com/results?search_query={{ movie.title }}+trailer" target="_blank"
+            class="link-btn" style="background: rgba(255, 0, 0, 0.2); border: 1px solid rgba(255,0,0,0.3);">▶ Watch
+            Trailer</a>
+        <a href="https://www.google.com/search?q=watch+{{ movie.title }}+free+online" target="_blank" class="link-btn"
+            style="background: rgba(0, 255, 0, 0.1); border: 1px solid rgba(0,255,0,0.2);">📺 Watch for Free</a>
+    </div>
+    <div class="links">
+        <a href="https://www.rottentomatoes.com/search?search={{ movie.title }}" target="_blank" class="link-btn">🍅
+            Rotten Tomatoes</a>
+        <a href="https://www.imdb.com/find?q={{ movie.title }}" target="_blank" class="link-btn">🎬 IMDb</a>
+    </div>
+
+    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
+        <form action="/recommend" method="POST" style="flex: 1;">
+            <input type="hidden" name="genre" value="{{ genre }}">
+            <input type="hidden" name="language" value="{{ language }}">
+            <button type="submit" class="btn"
+                style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);">🔄 Try
+                Another</button>
+        </form>
+        <a href="/" class="btn"
+            style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);">🏠
+            Home</a>
+    </div>
+</div>
+{% endblock %}

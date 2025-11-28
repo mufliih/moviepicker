@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="glass-card">
+    <h1>Movie Picker</h1>
+    <p>Discover your next favorite movie with AI-powered recommendations.</p>
+
+    {% if error %}
+    <div
+        style="background: rgba(255, 0, 0, 0.2); padding: 10px; border-radius: 8px; margin-bottom: 20px; border: 1px solid rgba(255,0,0,0.3);">
+        {{ error }}
+    </div>
+    {% endif %}
+
+    <form action="/recommend" method="POST">
+        <div class="form-group">
+            <label for="language">Select Language</label>
+            <input list="language_list" name="language" id="language" placeholder="Type to search..." required
+                style="width: 100%; padding: 16px 20px; border-radius: 12px; background-color: rgba(15, 23, 42, 0.6); border: 1px solid var(--glass-border); color: white; font-size: 1rem; font-family: inherit;">
+            <datalist id="language_list">
+                {% for name in languages %}
+                <option value="{{ name }}">
+                    {% endfor %}
+            </datalist>
+        </div>
+
+        <div class="form-group">
+            <label for="genre">Select a Genre</label>
+            <select name="genre" id="genre" required>
+                <option value="" disabled selected>Choose a mood...</option>
+                {% for name, id in genres.items() %}
+                <option value="{{ name }}">{{ name|title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn">Find Movie 🍿</button>
+    </form>
+</div>
+{% endblock %}
